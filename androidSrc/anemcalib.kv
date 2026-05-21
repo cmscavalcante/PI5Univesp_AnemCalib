@@ -1,0 +1,272 @@
+#:kivy 2.1.0
+<InfoLabel@Label>:
+    font_size: '14sp'
+    color: 0.8, 0.8, 0.8, 1
+    size_hint_y: None
+    height: '20dp'
+
+<ValueLabel@Label>:
+    font_size: '24sp'
+    bold: True
+    color: 1, 1, 1, 1
+    canvas.before:
+        Color:
+            rgba: 0.2, 0.2, 0.2, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<MainScreen>:
+    canvas.before:
+        Color:
+            rgba: 0.05, 0.05, 0.05, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '10dp'
+        spacing: '10dp'
+
+        # Área Superior (3 Colunas)
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: '15dp'
+
+            # Coluna 1: Veículo (OBD-II)
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '5dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 1
+                    Line:
+                        rectangle: self.x, self.y, self.width, self.height
+                
+                Label:
+                    text: "Veículo (OBD-II)"
+                    size_hint_y: None
+                    height: '30dp'
+                    bold: True
+                    color: root.obd_status_color
+
+                GridLayout:
+                    cols: 2
+                    padding: '5dp'
+                    spacing: '10dp'
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "Velocidade [km/h]"
+                        ValueLabel:
+                            text: root.obd_speed
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "TPS [%]"
+                        ValueLabel:
+                            text: root.obd_tps
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "MAF [g/s]"
+                        ValueLabel:
+                            text: root.obd_maf
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "Pressão Adm [kPa]"
+                        ValueLabel:
+                            text: root.obd_map
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '60dp'
+                    padding: '5dp'
+                    InfoLabel:
+                        text: "RPM [min-1]"
+                    ValueLabel:
+                        text: root.obd_rpm
+
+            # Coluna 2: Tablet
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '10dp'
+                padding: '10dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 1
+                    Line:
+                        rectangle: self.x, self.y, self.width, self.height
+
+                Label:
+                    text: "Tablet"
+                    size_hint_y: None
+                    height: '30dp'
+                    bold: True
+                    color: 0.2, 0.8, 1, 1
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: '80dp'
+                    InfoLabel:
+                        text: "Hora UTC"
+                    ValueLabel: 
+                        text: root.utc_time
+                        font_size: '32sp'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Label:
+                        text: "Log Dispositivo"
+                        size_hint_y: None
+                        height: '25dp'
+                    ScrollView:
+                        id: scroll_view
+                        canvas.before:
+                            Color:
+                                rgba: 0, 0, 0, 1
+                            Rectangle:
+                                pos: self.pos
+                                size: self.size
+                        Label:
+                            id: terminal
+                            text: root.terminal_text
+                            markup: True
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            halign: 'left'
+                            valign: 'top'
+                            font_size: '12sp'
+
+            # Coluna 3: Dispositivo (ESP32-S3)
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '5dp'
+                canvas.before:
+                    Color:
+                        rgba: 0.3, 0.3, 0.3, 1
+                    Line:
+                        rectangle: self.x, self.y, self.width, self.height
+
+                Label:
+                    text: "Dispositivo (ESP32-S3)"
+                    size_hint_y: None
+                    height: '30dp'
+                    bold: True
+                    color: 1, 0.8, 0.2, 1
+
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: '120dp'
+                    spacing: '10dp'
+                    padding: '5dp'
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "Velocidade [km/h]"
+                        ValueLabel:
+                            text: root.esp_speed
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        spacing: '2dp'
+                        InfoLabel:
+                            text: "Aceleração [m/s²]"
+                        ValueLabel: 
+                            text: "X: " + root.esp_accel_x
+                            font_size: '16sp'
+                        ValueLabel: 
+                            text: "Y: " + root.esp_accel_y
+                            font_size: '16sp'
+                        ValueLabel: 
+                            text: "Z: " + root.esp_accel_z
+                            font_size: '16sp'
+
+                GridLayout:
+                    cols: 2
+                    padding: '5dp'
+                    spacing: '10dp'
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "RPM Anem [min-1]"
+                        ValueLabel:
+                            text: root.esp_rpm
+                    
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "Millis [ms]"
+                        ValueLabel:
+                            text: root.esp_millis
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "SATS"
+                        ValueLabel:
+                            text: root.esp_sats
+
+                    BoxLayout:
+                        orientation: 'vertical'
+                        InfoLabel:
+                            text: "G [m/s²]"
+                        ValueLabel:
+                            text: root.esp_g
+
+        # Barra Inferior (Botões)
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: '60dp'
+            spacing: '10dp'
+            
+            Button:
+                text: "Calibração"
+                background_color: 0.3, 0.3, 0.3, 1
+            Button:
+                text: "Iniciar Teste"
+                background_color: 0, 0.6, 0, 1
+                on_release: root.start_test()
+            Button:
+                text: "Finalizar"
+                background_color: 0.6, 0, 0, 1
+                on_release: root.stop_test()
+            Button:
+                text: "Salvar Dados"
+                background_color: 0, 0, 0.6, 1
+
+<ErrorPopup>:
+    title: "Erro de Conexão"
+    size_hint: 0.6, 0.4
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        padding: '10dp'
+        spacing: '10dp'
+        Label:
+            text: "Dispositivo USB não detectado.\nVerifique o cabo OTG e o ESP32."
+            halign: 'center'
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: '10dp'
+            size_hint_y: None
+            height: '40dp'
+            Button:
+                text: "Tentar Novamente"
+                on_release: root.retry()
+            Button:
+                text: "Sair"
+                on_release: root.exit_app()
